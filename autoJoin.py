@@ -1,7 +1,7 @@
 import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
 from time import sleep
 from datetime import datetime
 import json
@@ -44,7 +44,7 @@ def get_driver_options():
                                         })
     return opt
 
-browser = webdriver.Chrome(ChromeDriverManager().install(), options=get_driver_options())
+browser = webdriver.Chrome(service=Service(executable_path='/opt/homebrew/bin/chromedriver'), options=get_driver_options())
 
 
 def wait_and_find_ele_by_id(html_id, timeout=timeOutDelay):
@@ -233,20 +233,20 @@ def main():
         print('Login failed. Please try again')
         sys.exit(1)
 
-    try:
-        init()
-    except:
-        print('Failed to open calendar')
-        sys.exit(1)
-
-    while True:
-        try:
-            check_and_end_or_leave_or_join_meeting()
-        except:
-            print('join meeting failed, trying again')
-            browser.get(TEAMS_URL)  # open calendar tab in teams
-        else:
-            sleep(10)
+    # try:
+    #     init()
+    # except:
+    #     print('Failed to open calendar')
+    #     sys.exit(1)
+    #
+    # while True:
+    #     try:
+    #         check_and_end_or_leave_or_join_meeting()
+    #     except:
+    #         print('join meeting failed, trying again')
+    #         browser.get(TEAMS_URL)  # open calendar tab in teams
+    #     else:
+    #         sleep(10)
 
 
 if __name__ == "__main__":
