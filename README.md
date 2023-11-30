@@ -87,3 +87,13 @@
 ## Contributing:
 - When contributing to this repository, feel free to discuss the change you wish to make via [Issues](https://github.com/atharva-lipare/MS-Teams-Auto-Joiner/issues), [Discussions](https://github.com/atharva-lipare/MS-Teams-Auto-Joiner/discussions) or [gitter chat room](https://gitter.im/MS-Teams-Auto-Joiner/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link) before making a change.
 - And don't forget to ⭐ the repo, 😃.
+
+
+## Misc
+
+if 
+`config['dev'] == true`
+```
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir="/Users/ekim/Library/Application Support/Google/Chrome/Profile 2" https://teams.microsoft.com/_#/calendarv2\n
+
+```
