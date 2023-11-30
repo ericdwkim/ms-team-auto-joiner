@@ -1,5 +1,7 @@
+import logging
 import sys
 from selenium import webdriver
+from utils.log_config import setup_logger
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from time import sleep
@@ -14,7 +16,7 @@ try:
     with open('config.json', 'r') as f:
         config = json.load(f)
 except:
-    print('config file not found. Exiting')
+    logging.exception('config file not found. Exiting')
     sys.exit(1)
 
 client = Client(config['account_sid'], config['auth_token'])
@@ -92,6 +94,7 @@ def wait_and_find_elements_by_xpath(xpath, timeout=timeOutDelay):
 
 
 def login():
+    setup_logger()
     browser.get(TEAMS_URL)  # open calendar tab in teams
     sleep(sleepDelay)
     wait_and_find_ele_by_id('i0116').send_keys(config['username'])  # enter username
@@ -132,9 +135,9 @@ def check_and_join_meeting():
                 body=f"Hi {config['nickname']}, I joined the meeting named {meeting_name} at {datetime.now()}. Hope you're doing well"
             )
         except:
-            print('Twilio service failed')
+            logging.exception('Twilio service failed')
     
-    print('Joined the meeting at {}'.format(datetime.now()))
+    logging.info('Joined the meeting at {}'.format(datetime.now()))
     sleep(60 * 5)
     browser.execute_script("document.getElementById('roster-button').click()")
     sleep(sleepDelay)
@@ -168,10 +171,10 @@ def check_and_end_or_leave_or_join_meeting():
                         body=f"Hi {config['nickname']}, I left the meeting named {meeting_name} as attendees were less than {config['minimumParticipants']} at {datetime.now()}"
                     )
                 except:
-                    print('Twilio service failed')
+                    logging.exception('Twilio service failed')
 
             browser.execute_script("document.getElementById('hangup-button').click()")
-            print('Left meeting at {}'.format(datetime.now()))
+            logging.info('Left meeting at {}'.format(datetime.now()))
             browser.get(TEAMS_URL)  # open calendar tab
             browser.refresh()
             sleep(5)
@@ -190,7 +193,7 @@ def check_and_end_or_leave_or_join_meeting():
                     body=f"Hi {config['nickname']}, host ended the meeting named {meeting_name} at {datetime.now()}"
                 )
             except:
-                print('Twilio service failed')
+                logging.exception('Twilio service failed')
 
         browser.get(TEAMS_URL)
         browser.refresh()
@@ -199,6 +202,7 @@ def check_and_end_or_leave_or_join_meeting():
 
 
 def init():
+    # setup_logger()
     global minParticipants
     minParticipants = config['minimumParticipants']
     browser.get(TEAMS_URL)  # open calendar tab in teams
@@ -218,9 +222,9 @@ def init():
                 body=f"Hi {config['nickname']}, we finished initialization at {datetime.now()}"
             )
         except:
-            print('Twilio service failed')
+            logging.exception('Twilio service failed')
 
-    print('Initialized Successfully at {}'.format(datetime.now()))
+    logging.info('Initialized Successfully at {}'.format(datetime.now()))
     check_and_join_meeting()
 
 
@@ -230,20 +234,20 @@ def main():
     try:
         login()
     except:
-        print('Login failed. Please try again')
+        logging.exception('Login failed. Please try again')
         sys.exit(1)
 
     # try:
     #     init()
     # except:
-    #     print('Failed to open calendar')
+    #     logging.exception('Failed to open calendar')
     #     sys.exit(1)
     #
     # while True:
     #     try:
     #         check_and_end_or_leave_or_join_meeting()
     #     except:
-    #         print('join meeting failed, trying again')
+    #         logging.exception('join meeting failed, trying again')
     #         browser.get(TEAMS_URL)  # open calendar tab in teams
     #     else:
     #         sleep(10)
