@@ -13,7 +13,7 @@ from twilio.rest import Client
 check = 2 # variable used for sending msg
 meeting_name = "meeting_name"
 try:
-    with open('config.json', 'r') as f:
+    with open('/Users/ekim/workspace/personal/MS-Teams-Auto-Joiner/config.json', 'r') as f:
         config = json.load(f)
 except:
     logging.exception('config file not found. Exiting')
@@ -24,11 +24,11 @@ client = Client(config['account_sid'], config['auth_token'])
 
 TEAMS_URL = 'https://teams.microsoft.com/_#/calendarv2'
 
-sleepDelay = 2  # increase if you have a slow internet connection
-timeOutDelay = 30  # increase if you have a slow internet connection
+sleepDelay = 20  # increase if you have a slow internet connection
+timeOutDelay = 60  # increase if you have a slow internet connection
 
 curParticipants = 0
-minParticipants = 10
+minParticipants = 3
 
 
 def get_driver_options():
@@ -48,6 +48,23 @@ def get_driver_options():
 
 browser = webdriver.Chrome(service=Service(executable_path='/opt/homebrew/bin/chromedriver'), options=get_driver_options())
 
+
+def wait_and_find_ele_by_class(class_id, timeout=timeOutDelay):
+    """
+    Given a class_id, return list of elems on DOM as WebElement
+    :param class_id:
+    :param timeout:
+    :return:
+    """
+    sleep(sleepDelay)
+    for i in range(timeout):
+        try:
+            elems = browser.find_elements(class_id)
+            logging.info(f'elems: {elems}')
+        except:
+            logging.exception(f'Exception during wait_and_find_ele_by_class')
+        else:
+            return elems
 
 def wait_and_find_ele_by_id(html_id, timeout=timeOutDelay):
     sleep(sleepDelay)
