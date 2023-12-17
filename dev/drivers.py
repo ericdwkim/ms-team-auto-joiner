@@ -1,6 +1,6 @@
 import logging
 import sys
-from utils.log_config import setup_logger
+from utils.log_config import setup_logger, handle_errors
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -45,6 +45,8 @@ class Driver:
 class SignInPage:
     def __init__(self):
         self.driver = Driver()
+
+    # @handle_errors
     def wait_and_find_elems_by_class(self, class_name):
         sleep(30)
         try:
@@ -56,6 +58,12 @@ class SignInPage:
             logging.info(f'elems: {elems}')
             return elems
 
+    def wait_and_find_elem_by_
+
+
+sign_in = SignInPage()
+
+# try_again_btns = sign_in.wait_and_find_elems_by_class(class_name="//*[@class='ts-btn ts-btn-fluent ts-btn-fluent-primary oops-button']")
 
 
 
