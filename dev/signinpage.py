@@ -28,7 +28,7 @@ class SignInPage:
             return False # elem not found within allotted `timeout`
 
 
-    def wait_and_find_elems_by_class(self, class_name):
+    def wait_and_find_elems_by_class(self, locator_type, class_name):
         """
         After a set delay, find and locate elements by class_name and return list of WebElements from DOM
         :param class_name:
@@ -36,14 +36,19 @@ class SignInPage:
         """
 
         try:
-            are_elems_present = self.wait_for_element()
+            are_elems_present = self.wait_for_element(class_name, locator_type)
             elems = self.driver.browser.find_elements(By.CLASS_NAME, class_name)
         except:
             logging.exception('exception in wait_and_find_elems_by_class')
 
         else:
             logging.info(f'Found list of elements: {elems} using class name: {class_name}')
+            if not are_elems_present:
+                logging.error(f'wait_and_find_elems_by_class error')
             return elems
 
-    def wait_and_find_elem_by_id(self, html_id):
 
+
+sip = SignInPage()
+
+sip.wait_and_find_elems_by_class('form-control ltr_override input ext-input text-box ext-text-box')
