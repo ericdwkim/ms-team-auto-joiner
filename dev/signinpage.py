@@ -1,6 +1,7 @@
 import logging
 from drivers import Driver
 import json
+from time import sleep
 import sys
 from utils.log_config import handle_errors
 from selenium.webdriver.common.by import By
@@ -76,8 +77,10 @@ sip = SignInPage()
 conf = sip.load_envs()
 
 # test = sip.wait_for_element('i0116', By.ID)
-# logging.info(test)
 
 sip.wait_and_find_element_and_click_and_send_keys('i0116', conf['username'])
 next_btn_clicked = sip.wait_and_find_element_and_click('idSIButton9', By.ID)
-logging.info(next_btn_clicked)
+sleep(30)
+sip.wait_and_find_element_and_click_and_send_keys('i0118', conf['password'])
+next_btn_clicked2 = sip.wait_and_find_element_and_click('idSIButton9', By.ID)
+
