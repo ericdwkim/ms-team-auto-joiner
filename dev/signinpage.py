@@ -8,7 +8,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 
 class SignInPage:
     def __init__(self):
-        self.driver = Driver()
+        self.driver = Driver().get_webdriver()
 
     def wait_for_element(self, locator, locator_type, timeout=30):
         """
@@ -27,30 +27,42 @@ class SignInPage:
         except TimeoutException:
             return False # elem not found within allotted `timeout`
 
+    # def wait_for_and_find_element(self, locator, locator_type, timeout):
+    #     try:
+    #         wait = self.wait_for_element(locator, locator_type, timeout)
+    #         if not wait:
+    #             logging.error(f'Tried to wait to locate element via locator "{locator}", but timed out. Please re-run the script with the cursor and screen focus on the Chrome Browser.')
+    #             return False, None
+    #         element = self.driver.find_element(locator_type, locator)
+    #         if not element:
+    #             logging.error(f'Could not find element via locator "{locator}"')
+    #             return True, None
+    #         if wait and element:
+    #             logging.info(f'Found and located element via locator "{locator}"')
+    #             return True, element
+    #
+    #     except Exception as NoSuchElementException:
+    #         logging.exception(f'An unexpected error occurred: {NoSuchElementException}')
 
-    def wait_and_find_elems_by_class(self, locator, locator_type=By.CLASS_NAME):
-        """
-        After a set delay, find and locate elements by class_name and return list of WebElements from DOM
-        :param class_name:
-        :return: list[WebElements]
-        """
+    def wait_and_find_elems_by_id(self, locator, locator_type=By.ID):
 
         try:
-            are_elems_present = self.wait_for_element(locator, locator_type)
-            elems = self.driver.browser.find_elements(By.CLASS_NAME, locator)
+            elem_is_present = self.wait_for_element(locator, locator_type)
+            elem = self.driver.find_element(By.ID, locator)
         except:
-            logging.exception('exception in wait_and_find_elems_by_class')
+            logging.exception('exception in wait_and_find_elems_by_id')
 
         else:
-            logging.info(f'Found list of elements: {elems} using class name: "{locator}"')
-            if not are_elems_present:
-                logging.error(f'wait_and_find_elems_by_class error')
-            return elems
+            logging.info(f'Found element: {elem} using ID: "{locator}"')
+            if not elem_is_present:
+                logging.error(f'wait_and_find_elems_by_id error')
+            return elem
 
 
 
 sip = SignInPage()
 
-lst = sip.wait_and_find_elems_by_class('form-control ltr_override input ext-input text-box ext-text-box')
+usrname_txtbox_elem = sip.wait_and_find_elems_by_id('i0116')
+logging.info(usrname_txtbox_elem)
 
-logging.info(lst)
+
