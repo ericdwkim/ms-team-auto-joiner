@@ -79,5 +79,5 @@ conf = sip.load_envs()
 # logging.info(test)
 
 sip.wait_and_find_element_and_click_and_send_keys('i0116', conf['username'])
-next_btn_clicked = sip.wait_and_find_element_and_click('idSIButton9')
+next_btn_clicked = sip.wait_and_find_element_and_click('idSIButton9', By.ID)
 logging.info(next_btn_clicked)
