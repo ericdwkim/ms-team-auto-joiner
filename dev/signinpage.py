@@ -12,20 +12,13 @@ class SignInPage:
     def __init__(self):
         self.driver = Driver().get_webdriver()
 
+    @handle_errors
     def load_envs(self):
-        try:
-            with open('/Users/ekim/workspace/personal/MS-Teams-Auto-Joiner/config.json', 'r') as f:
-                config = json.load(f)
-                if not config:
-                    logging.error(f'Could not parse config.json properly')
-                return config
+        with open('/Users/ekim/workspace/personal/MS-Teams-Auto-Joiner/config.json', 'r') as f:
+            config = json.load(f)
+            return config
 
-        except:
-            logging.exception('Could not locate config.json ... Exiting...')
-            sys.exit(1)
-
-
-
+    @handle_errors
     def find_element_and_click(self, locator ,locator_type=By.ID):
         """
         Finds element and clicks it using `WebElement.click()`
@@ -33,17 +26,11 @@ class SignInPage:
         :param locator_type:
         :return: Tuple(bool, WebElement)
         """
-        try:
-            element = self.driver.find_element(locator_type, locator)
-            element.click()
-            return True, element
-        except NoSuchElementException:
-            logging.error(f'Element {locator} was not found.')
-            return False, None
-        except Exception as e:
-            logging.exception(f'Error occurred when trying to find and click element: {str(e)}')
-            return False, None
+        element = self.driver.find_element(locator_type, locator)
+        element.click()
+        return (True, element)
 
+    @handle_errors
     def wait_and_find_element_and_click_and_send_keys(self, locator, keys_to_send):
         """
         Find element by locator string, click on element, and send keys
@@ -51,44 +38,46 @@ class SignInPage:
         :param keys_to_send:
         :return: bool
         """
-        try:
-            elem_is_present = self.wait_for_element(locator, locator_type=By.ID)
-            if not elem_is_present:
-                logging.error(f'Could not wait for element on DOM')
-                return
-            was_clicked, element_selector_clicked = self.find_element_and_click(locator)
-            if was_clicked:
-                element_selector_clicked.send_keys(keys_to_send)
-                return True
-            else:
-                logging.error(f'Failed to send keys to element: {locator}')
-                return False
-        except Exception as e:
-            logging.exception(f'An error occurred trying to find_element_and_click_and_send_keys: {str(e)}')
+        elem_is_present = self.wait_for_element(locator, locator_type=By.ID)
+        if not elem_is_present:
+            logging.error(f'Tried waiting for element using locator: "{locator}"')
+            return False
+        found_and_clicked, elem = self.find_element_and_click(locator)
+        if found_and_clicked:
+            elem.send_keys(keys_to_send)
+            return True
+        else:
+            logging.error(f'Failed to send keys to element: {locator}')
             return False
 
+    @handle_errors
+    def wait_for_element(self, locator, locator_type, timeout=15):
 
-    def wait_for_element(self, locator, locator_type, timeout=30):
-        """
-        Waits for elem via `locator` string using locator_type with a default timeout in secs
-        :param locator:
-        :param locator_type:
-        :param timeout:
-        :return: bool
-        """
+        WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located((locator_type, locator))
+        )
+        return True
 
-        try:
-            WebDriverWait(self.driver, timeout).until(
-                EC.visibility_of_element_located((locator_type, locator))
-            )
-            return True # elem found
-        except TimeoutException:
-            logging.exception(f'Tried waiting for element on DOM but timed out')
-            return False # elem not found within allotted `timeout`
+    @handle_errors
+    def wait_and_find_element_and_click(self, locator, locator_type):
+
+        elem_is_present = self.wait_for_element(locator, locator_type)
+        if not elem_is_present:
+            logging.error(f'Tried waiting for element using locator: "{locator}"')
+            return False
+        found_and_clicked, elem = self.find_element_and_click(locator, locator_type)
+        if found_and_clicked and elem:
+            elem.click()
+            return True
 
 
 sip = SignInPage()
 
 conf = sip.load_envs()
 
+# test = sip.wait_for_element('i0116', By.ID)
+# logging.info(test)
+
 sip.wait_and_find_element_and_click_and_send_keys('i0116', conf['username'])
+next_btn_clicked = sip.wait_and_find_element_and_click('idSIButton9')
+logging.info(next_btn_clicked)
