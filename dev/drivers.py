@@ -22,7 +22,7 @@ class Driver:
         opts = self._get_chrome_options()
         chromedriver_exec_path = self._get_chromedriver_executable_path()
 
-        self.browser = webdriver.Chrome(
+        self.driver = webdriver.Chrome(
             service=Service(executable_path=chromedriver_exec_path),
             options=opts
         )
@@ -36,36 +36,8 @@ class Driver:
     def _get_chromedriver_executable_path(self):
         return '/opt/homebrew/bin/chromedriver'
 
-
-# driver = Driver()
-
-# logging.info(driver)
-
-
-class SignInPage:
-    def __init__(self):
-        self.driver = Driver()
-
-    # @handle_errors
-    def wait_and_find_elems_by_class(self, class_name):
-        sleep(30)
-        try:
-            elems = self.driver.browser.find_elements(By.CLASS_NAME, class_name)
-        except:
-            logging.exception('exception in wait_and_find_elems_by_class')
-
-        else:
-            logging.info(f'elems: {elems}')
-            return elems
-
-    def wait_and_find_elem_by_
-
-
-sign_in = SignInPage()
-
-# try_again_btns = sign_in.wait_and_find_elems_by_class(class_name="//*[@class='ts-btn ts-btn-fluent ts-btn-fluent-primary oops-button']")
-
-
+    def get_webdriver(self):
+        return self.driver
 
 
 
