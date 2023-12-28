@@ -12,6 +12,8 @@ import json
 from twilio.rest import Client
 
 class Driver:
+    _webdriver = None
+
     def __init__(self):
         self.setup_driver()
         setup_logger()
@@ -36,8 +38,11 @@ class Driver:
     def _get_chromedriver_executable_path(self):
         return '/opt/homebrew/bin/chromedriver'
 
-    def get_webdriver(self):
-        return self.driver
+    @classmethod
+    def get_webdriver(cls):
+        if cls._webdriver is None:
+            cls._webdriver = Driver()
+        return cls._webdriver
 
 
 
