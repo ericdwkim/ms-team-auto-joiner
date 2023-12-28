@@ -60,17 +60,17 @@ class SignInPage:
         )
         return True
 
-    # @handle_errors
-    # def wait_and_find_element_and_click(self, locator, locator_type):
+    @handle_errors
+    def wait_and_find_element_and_click(self, locator, locator_type):
 
-        # elem_is_present = self.wait_for_element(locator, locator_type)
-        # if not elem_is_present:
-        #     logging.error(f'Tried waiting for element using locator: "{locator}"')
-        #     return False
-        # found_and_clicked, elem = self.find_element_and_click(locator, locator_type)
-        # if found_and_clicked and elem:
-        #     elem.click()
-        #     return True
+        elem_is_present = self.wait_for_element(locator, locator_type)
+        if not elem_is_present:
+            logging.error(f'Tried waiting for element using locator: "{locator}"')
+            return False
+        found_and_clicked, elem = self.find_element_and_click(locator, locator_type)
+        if found_and_clicked and elem:
+            elem.click()
+            return True
 
     @handle_errors
     def enter_username(self):
@@ -109,10 +109,3 @@ class SignInPage:
         else:
             logging.info('Successfully logged in!')
             return True
-
-
-
-sip = SignInPage()
-
-
-logged_in =  sip.login()
