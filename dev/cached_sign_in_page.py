@@ -12,10 +12,18 @@ class CachedSignedInPage(SignInPage):
         super().__init__()
 
     @handle_errors
-    def click_on_saved_account(self):
+    def login_with_cached_session(self):
         account_selected = self.wait_and_find_element_and_click('//*[@id="tilesHolder"]/div[1]/div/div[1]/div/div[2]/div', By.XPATH)
-        logging.info(f'Click on saved account attempt: {account_selected}')
-        return account_selected  # return the bool whether true or false
+        if not account_selected:
+            logging.error(f'Could not click on saved account username\nClick on saved account attempt: {account_selected}')
+            return account_selected
+        pw_entered = self.enter_password()
+        if not pw_entered:
+            logging.error(f'Could not enter password during login attempt via cached session')
+            return pw_entered
+        elif account_selected and pw_entered:
+            return True
 
 
-account_selected = CachedSignedInPage().click_on_saved_account()
+
+logged_in_via_cached_session = CachedSignedInPage().login_with_cached_session()
