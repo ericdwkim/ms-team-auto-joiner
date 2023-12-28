@@ -13,13 +13,13 @@ class SignInPage:
     def __init__(self):
         # @dev: invoke instance method from custom base Driver class and access the pre-configured custom webdriver class attribute via Singleton Pattern
         self.driver = Chrome_Driver().get_web_driver_instance().custom_webdriver
+        self.conf = self.load_envs()
 
-    @handle_errors
-    def load_envs(self):
+    @staticmethod
+    def load_envs():
         with open('/Users/ekim/workspace/personal/MS-Teams-Auto-Joiner/config.json', 'r') as f:
             config = json.load(f)
             return config
-
     @handle_errors
     def find_element_and_click(self, locator ,locator_type=By.ID):
         """
@@ -74,7 +74,7 @@ class SignInPage:
 
     @handle_errors
     def enter_username(self):
-        usrname_added = self.wait_and_find_element_and_click_and_send_keys('i0116', conf['username'])
+        usrname_added = self.wait_and_find_element_and_click_and_send_keys('i0116', self.conf['username'])
         next_btn_clicked = self.find_element_and_click('idSIButton9', By.ID)
         if not usrname_added and not next_btn_clicked:
             logging.error('Could not enter username')
@@ -86,7 +86,7 @@ class SignInPage:
 
     @handle_errors
     def enter_password(self):
-        pw_added = self.wait_and_find_element_and_click_and_send_keys('i0118', conf['password'])
+        pw_added = self.wait_and_find_element_and_click_and_send_keys('i0118', self.conf['password'])
         next_btn_clicked = self.find_element_and_click('idSIButton9', By.ID)
         if not pw_added and not next_btn_clicked:
             logging.error('Could not enter password')
@@ -114,6 +114,5 @@ class SignInPage:
 
 sip = SignInPage()
 
-conf = sip.load_envs()
 
 logged_in =  sip.login()
