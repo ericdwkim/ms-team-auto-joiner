@@ -48,7 +48,7 @@ class BasePage:
             return False
 
     @handle_errors
-    def wait_for_element(self, locator, locator_type, timeout=15):
+    def wait_for_element(self, locator, locator_type, timeout=25):
 
         WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located((locator_type, locator))

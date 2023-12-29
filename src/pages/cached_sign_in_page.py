@@ -1,5 +1,5 @@
 import logging
-from sign_in_page import SignInPage
+from src.pages.sign_in_page import SignInPage
 from src.utils.log_config import handle_errors
 from selenium.webdriver.common.by import By
 

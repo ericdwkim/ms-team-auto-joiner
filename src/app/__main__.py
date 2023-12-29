@@ -27,7 +27,7 @@ class Main:
         # Launch webapp
         self.base_page.visit()
         # check to see if cached account element does not exist on DOM
-        if not self.base_page.wait_for_element('//*[@id="tilesHolder"]/div[1]/div/div[1]/div/div[2]/div'):
+        if not self.base_page.wait_for_element('//*[@id="tilesHolder"]/div[1]/div/div[1]/div/div[2]/div', By.XPATH):
             reg_logged_in = self.regular_sign_in.login()
             logging.info(f'Regular logged in status: {reg_logged_in}')
             return reg_logged_in
