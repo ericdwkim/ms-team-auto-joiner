@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 from src.utils.log_config import handle_errors
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,6 +15,7 @@ class BasePage:
     def visit(self):
         logging.info(f'Visiting Teams Calendar Web...')
         self.driver.get('https://teams.microsoft.com/_\#/calendarv2')
+        sleep(60)  # wait for unknown `.get` extreme lag/delay to load all DOMs on page
 
     @handle_errors
     def find_element_and_click(self, locator ,locator_type=By.ID):
@@ -48,7 +50,7 @@ class BasePage:
             return False
 
     @handle_errors
-    def wait_for_element(self, locator, locator_type, timeout=25):
+    def wait_for_element(self, locator, locator_type, timeout=15):
 
         WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located((locator_type, locator))
