@@ -11,6 +11,11 @@ class BasePage:
         self.conf = conf
 
     @handle_errors
+    def visit(self):
+        logging.info(f'Visiting Teams Calendar Web...')
+        self.driver.get('https://teams.microsoft.com/_\#/calendarv2')
+
+    @handle_errors
     def find_element_and_click(self, locator ,locator_type=By.ID):
         """
         Finds element and clicks it using `WebElement.click()`
