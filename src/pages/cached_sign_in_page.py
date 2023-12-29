@@ -6,9 +6,8 @@ from selenium.webdriver.common.by import By
 
 class CachedSignedInPage(SignInPage):
 
-    def __init__(self):
-
-        super().__init__()
+    def __init__(self, driver, conf):
+        super().__init__(driver, conf)
 
     @handle_errors
     def login_with_cached_session(self):
@@ -25,4 +24,4 @@ class CachedSignedInPage(SignInPage):
 
 
 
-logged_in_via_cached_session = CachedSignedInPage().login_with_cached_session()
+# logged_in_via_cached_session = CachedSignedInPage().login_with_cached_session()
