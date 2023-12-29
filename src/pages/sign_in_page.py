@@ -11,8 +11,6 @@ class SignInPage(BasePage):
     def __init__(self, driver, conf):
         super().__init__(driver, conf)
 
-
-
     @handle_errors
     def enter_username(self):
         usrname_added = self.wait_and_find_element_and_click_and_send_keys('i0116', self.conf['username'])
