@@ -15,7 +15,7 @@ class Chrome_Driver:
     @staticmethod
     def _get_chrome_options():
         opts = webdriver.ChromeOptions()
-        opts.add_experimental_option("debuggerAddress", "127.0.0.1:9222")
+        opts.add_experimental_option("debuggerAddress", "127.0.0.1:9222")  # deving purposes until 2fa solution
         return opts
 
     @staticmethod
