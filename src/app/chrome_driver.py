@@ -1,15 +1,8 @@
 import logging
-import sys
-from utils.log_config import setup_logger, handle_errors
+from src.utils.log_config import setup_logger
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from time import sleep
-from datetime import datetime
-import json
-from twilio.rest import Client
+
 
 class Chrome_Driver:
     _chrome_driver_instance = None

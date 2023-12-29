@@ -1,7 +1,6 @@
 import logging
 from sign_in_page import SignInPage
-from time import sleep
-from utils.log_config import handle_errors
+from src.utils.log_config import handle_errors
 from selenium.webdriver.common.by import By
 
 

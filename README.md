@@ -72,7 +72,7 @@
     - To run in headless mode:
         Set `headless` to `true`.
 ## Usage:
--   Run [autoJoin.py](autoJoin.py):
+-   Run [autoJoin.py](dev/autoJoin.py):
     ```bash
     python autoJoin.py
     ```
@@ -82,7 +82,7 @@
 - You have a meeting at 9 A.M, you may run the script anytime before 9 A.M. and the script will automatically join the meeting when the join button is available.
 - The script will then automatically join the next meeting scheduled at e.g.:- 10 A.M. AFTER the organiser ends the meeting.
 - If the organiser does not end the meeting i.e the organiser leaves the meeting instead of ending the meeting, the script will leave the meeting after the strength of the meeting falls down to 10 or any minimum value set by the user.
-- To set a custom condition to automatically leave the meeting change the code on line# 137 of [autoJoin.py](autoJoin.py)
+- To set a custom condition to automatically leave the meeting change the code on line# 137 of [autoJoin.py](dev/autoJoin.py)
 
 ## Contributing:
 - When contributing to this repository, feel free to discuss the change you wish to make via [Issues](https://github.com/atharva-lipare/MS-Teams-Auto-Joiner/issues), [Discussions](https://github.com/atharva-lipare/MS-Teams-Auto-Joiner/discussions) or [gitter chat room](https://gitter.im/MS-Teams-Auto-Joiner/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link) before making a change.

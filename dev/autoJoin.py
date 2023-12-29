@@ -1,7 +1,7 @@
 import logging
 import sys
 from selenium import webdriver
-from utils.log_config import setup_logger
+from src.utils.log_config import setup_logger
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from time import sleep
@@ -13,7 +13,7 @@ from twilio.rest import Client
 check = 2 # variable used for sending msg
 meeting_name = "meeting_name"
 try:
-    with open('/Users/ekim/workspace/personal/MS-Teams-Auto-Joiner/config.json', 'r') as f:
+    with open('/config.json', 'r') as f:
         config = json.load(f)
 except:
     logging.exception('config file not found. Exiting')
