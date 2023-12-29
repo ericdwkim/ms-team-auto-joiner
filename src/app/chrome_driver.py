@@ -11,6 +11,11 @@ class Chrome_Driver:
         self.custom_webdriver = self.setup_web_driver()
         setup_logger()
 
+    @classmethod
+    def get_web_driver_instance(cls):
+        if cls._chrome_driver_instance is None:
+            cls._chrome_driver_instance = cls()
+        return cls._chrome_driver_instance
 
     @staticmethod
     def _get_chrome_options():
@@ -22,11 +27,6 @@ class Chrome_Driver:
     def _get_chromedriver_executable_path():
         return '/opt/homebrew/bin/chromedriver'
 
-    @classmethod
-    def get_web_driver_instance(cls):
-        if cls._chrome_driver_instance is None:
-            cls._chrome_driver_instance = Chrome_Driver()
-        return cls._chrome_driver_instance
 
     def setup_web_driver(self):
         logging.info('Initializing ChromeDriver with remote debugging')
