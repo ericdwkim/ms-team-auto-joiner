@@ -49,7 +49,7 @@ class BasePage:
             logging.error(f'Failed to send keys to element: {locator}')
             return False
 
-    @handle_errors
+    # @handle_errors
     def wait_for_element(self, locator, locator_type, timeout=15):
 
         WebDriverWait(self.driver, timeout).until(
