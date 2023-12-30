@@ -1,6 +1,6 @@
 import logging
 import json
-from src.utils.log_config import handle_errors
+from src.utils.log_config import setup_logger, handle_errors
 from selenium.webdriver.common.by import By
 from src.app.chrome_driver import Chrome_Driver
 from src.pages.base_page import BasePage
@@ -11,7 +11,8 @@ from src.pages.cached_sign_in_page import CachedSignedInPage
 class Main:
 
     def __init__(self):
-        self.driver = Chrome_Driver().get_web_driver_instance().custom_webdriver
+        setup_logger()
+        self.driver = Chrome_Driver.get_web_driver_instance().custom_webdriver
         self.conf = self.load_envs()
         self.base_page = BasePage(self.driver, self.conf)
         self.regular_sign_in = SignInPage(self.driver, self.conf)
