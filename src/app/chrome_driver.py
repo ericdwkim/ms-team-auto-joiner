@@ -1,5 +1,4 @@
 import logging
-from src.utils.log_config import setup_logger
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 
@@ -9,7 +8,6 @@ class Chrome_Driver:
 
     def __init__(self):
         self.custom_webdriver = self.setup_web_driver()
-        setup_logger()
 
     @classmethod
     def get_web_driver_instance(cls):
@@ -30,7 +28,7 @@ class Chrome_Driver:
 
 
     def setup_web_driver(self):
-        logging.info('Initializing ChromeDriver with remote debugging')
+        logging.info('Initializing ChromeDriver...')
         opts = self._get_chrome_options()
         chromedriver_exec_path = self._get_chromedriver_executable_path()
 
