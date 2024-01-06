@@ -40,3 +40,4 @@ class Main:
 if __name__ == "__main__":
     main_obj = Main()
     main_obj.sign_in()
+    sleep(30)  # wait for 2fa code
