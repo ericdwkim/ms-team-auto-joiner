@@ -2,4 +2,3 @@
 .vscode/
 env/
 *.json
-dev/oauth_url.txt
