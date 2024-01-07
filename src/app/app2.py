@@ -12,8 +12,11 @@ app = Flask(__name__)
 # SCOPE = 'email'
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
-CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
-AUTHORIZE_URL = os.environ.get('AUTHORIZE_URL')
+# CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+TENANT_ID = os.environ.get('TENANT_ID')
+AUTHORIZE_URL = f'https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/authorize'
+REDIRECT_URI = os.environ.get('REDIRECT_URI')
+
 
 @app.route('/login')
 def login():
