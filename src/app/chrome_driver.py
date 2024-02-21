@@ -1,6 +1,7 @@
 import logging
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 class Chrome_Driver:
@@ -33,7 +34,7 @@ class Chrome_Driver:
         chromedriver_exec_path = self._get_chromedriver_executable_path()
 
         web_driver = webdriver.Chrome(
-            service=Service(executable_path=chromedriver_exec_path),
+            service=Service(executable_path=ChromeDriverManager().install()),
             options=opts
         )
 
