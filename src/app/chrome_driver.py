@@ -23,16 +23,10 @@ class Chrome_Driver:
         opts.add_argument('--start-maximized')
         return opts
 
-    @staticmethod
-    def _get_chromedriver_executable_path():
-        return '/opt/homebrew/bin/chromedriver'
-
 
     def setup_web_driver(self):
         logging.info('Initializing ChromeDriver...')
         opts = self._get_chrome_options()
-        chromedriver_exec_path = self._get_chromedriver_executable_path()
-
         web_driver = webdriver.Chrome(
             service=Service(executable_path=ChromeDriverManager().install()),
             options=opts
