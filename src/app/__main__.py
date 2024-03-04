@@ -7,9 +7,10 @@ from src.app.chrome_driver import Chrome_Driver
 from src.pages.base_page import BasePage
 from src.pages.sign_in_page import SignInPage
 from src.pages.cached_sign_in_page import CachedSignedInPage
+from selenium.common.exceptions import StaleElementReferenceException
 
 
-class Main:
+class App:
 
     def __init__(self):
         setup_logger()
@@ -28,7 +29,7 @@ class Main:
     def sign_in(self):
         # Launch webapp
         self.base_page.visit()
-        # Binary logical AND operator
+        # `Sign In` button
         if self.base_page.wait_for_element('idSIButton9', By.ID):
             reg_logged_in = self.regular_sign_in.login()
             logging.info(f'Regular logged in status: {reg_logged_in}')
@@ -37,7 +38,30 @@ class Main:
         logging.info(f'Cached logged in status: {cached_logged_in}')
         return cached_logged_in
 
+    @handle_errors
+    def sign_in_submit_post_2fa(self):
+        sleep(15)  # wait for manual 2fa
+
+        # Loop until "Stay signed in?" to be on page indicating we passed 2fa manuallyZ
+        if 'Stay signed in?' in self.driver.page_source:
+            try:
+                # `Yes` sign in submit button
+                if self.base_page.wait_and_find_element_and_click('idSIButton9', By.ID):
+                    logging.info('Could not wait, find, and click Yes button')
+                    return True
+            except StaleElementReferenceException:
+                try:
+                    self.base_page.wait_and_find_element_and_click('//*[@class="win-button button_primary button ext-button primary ext-primary"]', By.CLASS_NAME)
+                    logging.info('Could not wait, find, and click Yes button with classname')
+                    return True
+
+                finally:
+                    self.base_page.wait_and_find_element_and_click('//*[@id="idSIButton9"]', By.XPATH)
+                    logging.info('Successfully wait, find, and click Yes')
+                    return True
+
+
 if __name__ == "__main__":
-    main_obj = Main()
-    main_obj.sign_in()
-    sleep(30)  # wait for 2fa code
+    app = App()
+    app.sign_in()
+    app.sign_in_submit_post_2fa()
